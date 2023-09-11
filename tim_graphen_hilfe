@@ -1,0 +1,28 @@
+12:37]mrphrazer: zu dem code: so wie ich das sehe initialisert ihr einen leeren graph. ich glaube ihr muesste explizit die ganzen nodes/edges selbst hinzuguegen vorher
+[12:39]mrphrazer:
+digraph.add(Vertex(func))
+
+
+damit fuegt ihr ja erstmal nur alles nodes hinzu (also basic bloecke). das konzept von edges ist hier dann vermutlich noch nicht preserentiert
+[12:41]mrphrazer: was ihr machen muesst ist ueber alle basic bloecke iterieren, zb so:
+
+https://github.com/HackOvert/GhidraSnippets#print-details-about-basic-blocks-in-a-select-function
+GitHub
+GitHub - HackOvert/GhidraSnippets: Python snippets for Ghidra's Pro...
+Python snippets for Ghidra's Program and Decompiler APIs - GitHub - HackOvert/GhidraSnippets: Python snippets for Ghidra's Program and Decompiler APIs
+GitHub - HackOvert/GhidraSnippets: Python snippets for Ghidra's Pro...
+[12:42]mrphrazer: sich ueber getdestinations die ziele holen
+[12:46]mrphrazer: und dann edges manuell bauen, zb so:
+blocks = blockModel.getCodeBlocksContaining(func.getBody(), monitor)
+
+
+# print any remaining blocks
+while(blocks.hasNext()):
+    bb = blocks.next()
+    dest = bb.getDestinations(monitor)
+    while(dest.hasNext()):
+        dbb = dest.next()
+
+        digraph.add(Vert)
+        digraph.add(Edge(Vertex(bb.getName()), Vertex(dbb.getName())))
+[12:46]mrphrazer: das nur nen beispiel um die idee zu verdeutlichen, das ist untested iund wird nocht so 1:1 laufen
