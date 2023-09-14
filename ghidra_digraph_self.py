@@ -49,6 +49,7 @@ def addBasicBlocks():
 				#digraph.add(Vert)
 				digraph.add(Edge(Vertex(bb), Vertex(dbb))) 		# adds edges/verticies to graph
 
+# for testing
 def printEdges():
 	
 	# print edges
@@ -59,6 +60,7 @@ def printEdges():
 		to_vertex = edge.to()
 		print("  Edge from {} to {}".format(from_vertex, to_vertex))
 
+# for testing
 def printVertices():
 	vertices = digraph.vertexIterator()
 	while vertices.hasNext():
@@ -70,12 +72,13 @@ def loopCounter():
 	vertices = digraph.vertexIterator()
 	while vertices.hasNext():
 		vertex = vertices.next()
-		loopCount = digraph.numLoops(vertex)
-		print("  Vertex: {} {}(key: {})".format(vertex, loopCount, vertex.key()))
+		loopcount = digraph.numLoops(vertex)					# The number of edges having v as both their terminal and terminal vertex.
+		print("  Vertex: {} {}(key: {})".format(vertex, loopcount, vertex.key()))
 
 
 
 if __name__ == "__main__": #to be removed in final
 	addBasicBlocks()
 	loopCounter()
+	digraph.numEdges() 											# according to this, still no edges..
 	
