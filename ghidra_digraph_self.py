@@ -66,36 +66,16 @@ def printVertices():
 		print("  Vertex: {} (key: {})".format(vertex, vertex.key()))
 
 
-# def loopCounter():
-# 	vertices = digraph.vertexIterator()
-# 	while vertices.hasNext():
-# 		vertex = vertices.next()
-# 		loopCount = digraph.numLoops(vertex)
-# 		print("  Vertex: {} {}(key: {})".format(vertex, loopCount, vertex.key()))
-
-
-def LoopCounter():
-	edges = digraph.edgeIterator()
+def loopCounter():
 	vertices = digraph.vertexIterator()
-	
-	#while edges.hasNext():
-		# public int numLoops​(Vertex v) - The number of edges having v as both their terminal and terminal vertex.
-	while edges.hasNext():
-		edge = edges.next()
-		from_vertex = edge.from()
-		to_vertex = edge.to()
-
-		
-		if from_vertex.compareTo(to_vertex) == 0:				# returns 0 if equal
-			# print("  Edge from {} to {}".format(from_vertex, to_vertex))
-			print(to_vertex, from_vertex)	
-			
-		#loopcount = digraph.numLoops(vertex)			 #  The number of edges having v as both their terminal and terminal vertex. ??
-
+	while vertices.hasNext():
+		vertex = vertices.next()
+		loopCount = digraph.numLoops(vertex)
+		print("  Vertex: {} {}(key: {})".format(vertex, loopCount, vertex.key()))
 
 
 
 if __name__ == "__main__": #to be removed in final
 	addBasicBlocks()
-	LoopCounter()
+	loopCounter()
 	
