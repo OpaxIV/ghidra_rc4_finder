@@ -61,9 +61,39 @@ def loopCounter():
 			dest = bb.getDestinations(monitor) 	# Get an Iterator over the CodeBlocks that are flowed to from this CodeBlock.
 			while(dest.hasNext()):
 				dbb = dest.next()
-				graph.add_edge(bb, dbb)
+				#graph.add_edge(bb, dbb.getDestinationBlock())
+				graph.add_edge(bb.getName(), dbb.getDestinationBlock().getName())
 
-		loopcount = len([loop for loop in nx.simple_cycles(graph)])
+		# unused ideas		
+		#loopcount = len([loop for loop in nx.simple_cycles(graph)])
+		#loopcount = len([scc for scc in nx.strongly_connected_components(graph) if len(scc) > 1])
+		
+		# # number of self-loops
+		# loopcount = len(list(nx.nodes_with_selfloops(graph)))
+		# # number of loops with more than one node
+		# loopcount += len([scc for scc in nx.strongly_connected_components(graph) if len(scc) > 1])
+		
+		# # number of self-loops
+		# num_of_loops = nx.number_of_selfloops(G)
+		# # number of loops with more than one node
+		# num_of_loops += len([scc for scc in nx.strongly_connected_components(graph) if len(scc) > 1])
+
+		loopcount = 0
+
+        # walk over all strongly connected components
+		for scc in nx.strongly_connected_components(graph):
+            # check for self-loop
+			if len(scc) == 1:
+                # will only be taken once
+				for node in scc:
+                    # if node has an edge to itself
+					if node in graph.successors(node):
+						loopcount += 1
+            # SCC has more than one element -> loop
+			else:
+				loopcount += 1
+
+
 		print("  Func: {}, LoopCount: {}".format(func, loopcount))
 
 
