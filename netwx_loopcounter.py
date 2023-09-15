@@ -1,5 +1,17 @@
 # -*- coding: utf-8 -*-				 # UTF-8 encoding
 
+
+# Remark: netwx is needed to work (version 1.10 or lower, since greater versions only support python 3.XX)
+# Remark 2: install netwx via pip and python 2.7.X
+# URLs:
+# https://networkx.org/documentation/networkx-2.7/release/api_1.10.html
+# https://pip.pypa.io/en/stable/installation/
+
+# Install Instructions:
+# install python 2.7.XX (we used 2.7.15)
+# Using powershell, input 'pip install networkx==1.10'
+# Copy everything from the folder "C:\Python27\Lib\site-packages" into your ghidra script folder
+
 from ghidra.program.model.block import BasicBlockModel
 from ghidra.util.task import ConsoleTaskMonitor
 # from ghidra.util.graph import DirectedGraph
