@@ -21,19 +21,20 @@ import networkx as nx
 # Find Functions with hex value 0x100
 # Description: Prints every function and returns true/false if the hex number is present in said function
 
-def searchHex(codeUnits):
+
+def hexCheck(func):
+	# per function
+	addrSet = func.getBody()
+	codeUnits = listing.getCodeUnits(addrSet, True)
+
+	# per codeunit	
 	for codeUnit in codeUnits:
 		codeUnitString = codeUnit.toString()
 		if '0x100' in codeUnitString:
-		    return True
-		return False
-
-def hexValCheck(func):
-		addrSet = func.getBody()
-		codeUnits = listing.getCodeUnits(addrSet, True)
-		hexvalboolean = searchHex(codeUnits)                   # returns true if hex is found
+			valueBoolean = True
+		valueBoolean = False
+	return valueBoolean
 		
-
 
 
 ######################################################################################################
