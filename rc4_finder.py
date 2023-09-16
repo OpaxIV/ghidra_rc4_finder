@@ -32,7 +32,8 @@ def hexCheck(func):
 		codeUnitString = codeUnit.toString()
 		if '0x100' in codeUnitString:
 			valueBoolean = True
-		valueBoolean = False
+		else:
+			valueBoolean = False
 	return valueBoolean
 		
 
