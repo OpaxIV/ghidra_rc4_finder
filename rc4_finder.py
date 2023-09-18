@@ -23,18 +23,17 @@ import networkx as nx
 
 
 def hexCheck(func):
-	# per function
-	addrSet = func.getBody()
-	codeUnits = listing.getCodeUnits(addrSet, True)
+    # per function
+    addrSet = func.getBody()
+    codeUnits = listing.getCodeUnits(addrSet, True)
 
-	# per codeunit	
-	for codeUnit in codeUnits:
-		codeUnitString = codeUnit.toString()
-		if '0x100' in codeUnitString:
-			valueBoolean = True
-		else:
-			valueBoolean = False
-	return valueBoolean
+    # per codeunit    
+    for codeUnit in codeUnits:
+        codeUnitString = codeUnit.toString()
+        if '0x100' in codeUnitString:
+            return True
+
+    return False
 		
 
 
