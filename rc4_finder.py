@@ -94,7 +94,7 @@ def loopCounter(function):
                     loopcount += 1
         # SCC has more than one element -> loop
         else:
-            loopcount += 1
+            loopcount += 1                                                     # finds scc with > 1 nodes, corresponding to a default loop
     return loopcount
 
 ######################################################################################################
@@ -102,7 +102,7 @@ def loopCounter(function):
 # Description: Checks if all conditions are met for the function
 
 def allTrue(func):
-    if hexCheck(func) and (paramCounter(func) >= 3) and (loopCounter(func) >=2):
+    if hexCheck(func) and (paramCounter(func) >= 3) and (loopCounter(func) >=1):
         return True
     return False
 
