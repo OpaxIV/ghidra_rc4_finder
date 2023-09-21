@@ -94,7 +94,7 @@ def loopCounter(function):
                     loopcount += 1
         # SCC has more than one element -> loop
         else:
-            loopcount += 1                                                     # finds scc with > 1 nodes, corresponding to a default loop
+            loopcount += 1                                                  # finds scc with > 1 nodes, corresponding to a default loop
     return loopcount
 
 ######################################################################################################
