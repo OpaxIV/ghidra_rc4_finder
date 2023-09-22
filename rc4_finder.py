@@ -35,22 +35,6 @@ from ghidra.util.graph import Vertex
 import networkx as nx
 
 
-######################################################################################################
-# xorCheck(function)
-# Description: Checks if given function contains at any point the XOR operator
-
-def xorCheck(func):
-    # per function
-    addrSet = func.getBody()                                        # Get the address set for this namespace.  
-    codeUnits = listing.getCodeUnits(addrSet, True)                 # get a CodeUnit iterator that will iterate over the entire address space. True means forward
-
-    # per codeunit    
-    for codeUnit in codeUnits:
-        codeUnitString = codeUnit.toString()
-        if 'XOR' in codeUnitString:
-            return True
-
-    return False
 
 ######################################################################################################
 # hexCheck(function)
@@ -117,7 +101,7 @@ def loopCounter(function):
 # Description: Checks if all conditions are met for the function
 
 def allTrue(func):
-    if hexCheck(func) and (paramCounter(func) >= 2) and (loopCounter(func) >=1) and xorCheck(func):
+    if hexCheck(func) and (paramCounter(func) >= 2) and (loopCounter(func) >=1):
         return True
     return False
 
@@ -134,5 +118,5 @@ if __name__ == "__main__":
 	
     for func in funcs:
 
-        output = "  Func: {:<30}            |            HexValue: {:^}            |             ParamCount: {:^}            |             loopCount: {:^}            |             xorCount: {:^}            |              All Satisfiable: {:>}"
-        print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), allTrue(func)))
+        output = "  Func: {:<30}            |            HexValue: {:^}            |             ParamCount: {:^}            |             loopCount: {:^}            |              All Satisfiable: {:>}"
+        print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), allTrue(func)))
