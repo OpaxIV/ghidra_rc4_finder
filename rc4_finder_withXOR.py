@@ -143,5 +143,5 @@ if __name__ == "__main__":
 	
     for func in funcs:
 
-        output = "  Func: {:<30}            |            HexValue: {:^}            |             ParamCount: {:^}            |             loopCount: {:^}            |             xorCount: {:^}            |              Possible a KSA: {:>}            |             Possible a PRGA: {:>}            |
+        output = "  Func: {:<30}            |            HexValue: {:^}            |             ParamCount: {:^}            |             loopCount: {:^}            |             xorCount: {:^}            |              Possible a KSA: {:>}            |             Possible a PRGA: {:>}            |"
         print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
