@@ -113,11 +113,20 @@ def loopCounter(function):
     return loopcount
 
 ######################################################################################################
-# allTrue(function)
+# possibleKSA(function)
 # Description: Checks if all conditions are met for the function
 
-def allTrue(func):
-    if hexCheck(func) and (paramCounter(func) >= 2) and (loopCounter(func) >=1) and xorCheck(func):
+def possibleKSA(func):
+    if hexCheck(func) and (paramCounter(func) >= 2) and (loopCounter(func) >=1):
+        return True
+    return False
+
+######################################################################################################
+# possiblePRGA(function)
+# Description: Checks if all conditions are met for the function
+
+def possiblePRGA(func):
+    if (paramCounter(func) >= 2) and (loopCounter(func) >=1) and xorCheck(func):
         return True
     return False
 
@@ -134,5 +143,5 @@ if __name__ == "__main__":
 	
     for func in funcs:
 
-        output = "  Func: {:<30}            |            HexValue: {:^}            |             ParamCount: {:^}            |             loopCount: {:^}            |             xorCount: {:^}            |              All Satisfiable: {:>}"
-        print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), allTrue(func)))
+        output = "  Func: {:<30}            |            HexValue: {:^}            |             ParamCount: {:^}            |             loopCount: {:^}            |             xorCount: {:^}            |              Possible a KSA: {:>}"            |             Possible a PRGA: {:>}"
+        print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
