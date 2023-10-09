@@ -15,9 +15,14 @@
 # Ghidra supports Python 2.7.X
 
 # Installation Instructions:
+#
+# Windows:
 # Install python 2.7.XX (we used 2.7.15)
 # Using powershell (on Windows), input 'pip install networkx==1.10'
 # After the Installation, copy everything from the folder "C:\Python27\Lib\site-packages" into your Ghidra Scripts Folder.
+#
+# Debian/Ubuntu:
+# Same procedure, except for the installation folder of networkx: `/usr/local/lib/python3.10/dist-packages/networkx`
 
 # URLs:
 # https://networkx.org/documentation/networkx-2.7/release/api_1.10.html
