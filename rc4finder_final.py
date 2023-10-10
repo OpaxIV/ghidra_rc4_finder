@@ -159,6 +159,7 @@ if __name__ == "__main__":
 		pPRGA += 1
 	funccount += 1
 
+    ## Print number of total functions, possibleKSA and possiblePRGA
     print(funccount)
     print(pKSA)
     print(pPRGA)
