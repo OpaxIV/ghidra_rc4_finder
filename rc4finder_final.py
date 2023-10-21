@@ -154,7 +154,7 @@ if __name__ == "__main__":
         if possibleKSA(func):
 		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
 		pKSA += 1
-	if possiblePRGA(func):
+	elif possiblePRGA(func):
 		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
 		pPRGA += 1
 	funccount += 1
