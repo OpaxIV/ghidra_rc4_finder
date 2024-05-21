@@ -3,7 +3,7 @@
 # Authors: Fabio Schmidt, Jonas Eggenberg
 # Assisted by the Tutor: Tim Blazytko
 # Hochschule Luzern
-# Date: XX.YY.ZZZZ
+# Date: 21.05.2024
 
 # Python Script used for finding potential RC4 implementations in binaries.
 
@@ -154,7 +154,7 @@ if __name__ == "__main__":
         if possibleKSA(func):
 		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
 		pKSA += 1
-	elif possiblePRGA(func):
+	if possiblePRGA(func):
 		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
 		pPRGA += 1
 	funccount += 1
