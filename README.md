@@ -3,7 +3,7 @@
 ### Authors: Fabio Schmidt, Jonas Eggenberg
 ### Assisted by the Tutor: Tim Blazytko
 ### Hochschule Luzern
-### Date: 17.05.2024
+### Date: 21.05.2024
 
 Python Script used for finding potential RC4 implementations in binaries.
 
