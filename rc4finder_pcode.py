@@ -50,7 +50,7 @@ def xorCheck(func):
     # per function
     addrSet = func.getBody()                                        # Get the address set for this namespace.  
     #codeUnits = listing.getCodeUnits(addrSet, True)                 # get a CodeUnit iterator that will iterate over the entire address space. True means forward
-    pCodes = listing.getPcodeOps(addrSet)
+    pCodes = getPcodeOps(addrSet)
 	
     # per codeunit    
     #for codeUnit in codeUnits:
