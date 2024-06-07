@@ -76,7 +76,7 @@ def hexCheck(func):
 		
 
 ######################################################################################################
-# paramCouunter(function)
+# paramCounter(function)
 # Description: Counts the parameters of the given function
 
 def paramCounter(func):
