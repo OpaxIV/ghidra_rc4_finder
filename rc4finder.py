@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-				                            # UTF-8 encoding, because Ghidra wants it that way
 
-# Authors: Fabio Schmidt, Jonas Eggenberg
-# Assisted by the Tutor: Tim Blazytko
+# Authors: Fabio S., Jonas E.
+# Assisted by the Tutor: Tim B.
 # Hochschule Luzern
-# Date: 21.05.2024
+# Date: 06.06.2024
 
 # Python Script used for finding potential RC4 implementations in binaries.
 
