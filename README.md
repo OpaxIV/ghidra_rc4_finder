@@ -20,5 +20,5 @@ Using powershell (on Windows), input 'pip install networkx==1.10' <br/>
 After the Installation, copy everything from the folder "C:\Python27\Lib\site-packages" into your Ghidra Scripts Folder.
 
 _URLs:_
-https://networkx.org/documentation/networkx-2.7/release/api_1.10.html
-https://pip.pypa.io/en/stable/installation/
+* https://networkx.org/documentation/networkx-2.7/release/api_1.10.html
+* https://pip.pypa.io/en/stable/installation/
