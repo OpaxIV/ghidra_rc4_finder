@@ -38,6 +38,7 @@ from ghidra.program.model.block import BasicBlockModel
 from ghidra.util.task import ConsoleTaskMonitor
 from ghidra.util.graph import Edge
 from ghidra.util.graph import Vertex
+import ghidra.program.model.pcode as pcode				# to check if this works
 import networkx as nx
 
 
@@ -48,13 +49,19 @@ import networkx as nx
 def xorCheck(func):
     # per function
     addrSet = func.getBody()                                        # Get the address set for this namespace.  
-    codeUnits = listing.getCodeUnits(addrSet, True)                 # get a CodeUnit iterator that will iterate over the entire address space. True means forward
-
+    #codeUnits = listing.getCodeUnits(addrSet, True)                 # get a CodeUnit iterator that will iterate over the entire address space. True means forward
+    pCodes = listing.getPcodeOps(addrSet)
+	
     # per codeunit    
-    for codeUnit in codeUnits:
-        codeUnitString = codeUnit.toString()
-        if 'XOR' in codeUnitString:
-            return True
+    #for codeUnit in codeUnits:
+        #codeUnitString = codeUnit.toString()
+        #if 'XOR' in codeUnitString:
+            #return True
+    for instr in pCodes:
+        pCodeString = instr.toString()
+	if '0x100' in pCodeString:
+		return True
+	    
 
     return False
 
