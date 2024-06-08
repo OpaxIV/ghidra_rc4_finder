@@ -38,7 +38,7 @@ from ghidra.program.model.block import BasicBlockModel
 from ghidra.util.task import ConsoleTaskMonitor
 from ghidra.util.graph import Edge
 from ghidra.util.graph import Vertex
-import ghidra.program.model.pcode.*
+from ghidra.program.model.pcode import PcodeOp, PcodeOpAST, PcodeSyntaxTree
 import networkx as nx
 
 
