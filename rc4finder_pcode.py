@@ -61,12 +61,6 @@ def getHighFunction(func):
 # --> high_func gets passed to xorCheck and hexCheck
 
 
-## might not needed, to be deleted
-def dump_refined_pcode(func, high_func):
-    opiter = high_func.getPcodeOps()
-    while opiter.hasNext():
-        op = opiter.next()
-        print("{}".format(op.toString()))
 
 ######################################################################################################
 # xorCheck(function)
@@ -75,8 +69,7 @@ def dump_refined_pcode(func, high_func):
 def xorCheck(high_func):
     # per function
     opiter = high_func.getPcodeOps()
-    while opiter.hasNext():
-        op = opiter.next()
+    for op in opiter:
         op_str = op.toString()
         if 'XOR' in op_str:
             return True
@@ -89,7 +82,7 @@ def xorCheck(high_func):
 def hexCheck(high_func):
     # per function
     opiter = high_func.getPcodeOps()
-    while opiter.hasNext():
+    while opiter.hasNext():             # to change if xorCheck works
         op = opiter.next()
         op_str = op.toString()
         if '0x100' in op_str:
@@ -143,8 +136,8 @@ def loopCounter(function):
 # possibleKSA(function)
 # Description: Checks if all conditions are met for the function
 
-def possibleKSA(func):
-    if hexCheck(func) and (paramCounter(func) >= 2 and paramCounter(func) <= 5) and (loopCounter(func) >=1):
+def possibleKSA(func, high_func):
+    if hexCheck(high_func) and (paramCounter(func) >= 2 and paramCounter(func) <= 5) and (loopCounter(func) >=1):
         return True
     return False
 
@@ -152,8 +145,8 @@ def possibleKSA(func):
 # possiblePRGA(function)
 # Description: Checks if all conditions are met for the function
 
-def possiblePRGA(func):
-    if (paramCounter(func) >= 3 and paramCounter(func) <= 4) and (loopCounter(func) >=1) and xorCheck(func):
+def possiblePRGA(func, high_func):
+    if (paramCounter(func) >= 3 and paramCounter(func) <= 4) and (loopCounter(func) >=1) and xorCheck(high_func):
         return True
     return False
 
@@ -174,11 +167,11 @@ if __name__ == "__main__":
     for func in funcs:
         hf = getHighFunction(func)
         output = "  Func: {:<30}	  |      HexValue: {:^}      |        ParamCount: {:^}          |        loopCount: {:^}         |       xorCount: {:^}  |   Possible a KSA: {:>}            |             Possible a PRGA: {:>}            |"
-        if possibleKSA(func):
-		print(output.format(func, hexCheck(hf), paramCounter(func), loopCounter(func), xorCheck(hf), possibleKSA(func), possiblePRGA(func)))
+        if possibleKSA(func, hf):
+		print(output.format(func, hexCheck(hf), paramCounter(func), loopCounter(func), xorCheck(hf), possibleKSA(func, hf), possiblePRGA(func, hf)))
 		pKSA += 1
-	if possiblePRGA(func):
-		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
+	if possiblePRGA(func, hf):
+		print(output.format(func, hexCheck(hf), paramCounter(func), loopCounter(func), xorCheck(hf), possibleKSA(func, hf), possiblePRGA(func, hf)))
 		pPRGA += 1
 	funccount += 1
 
