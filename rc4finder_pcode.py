@@ -36,50 +36,64 @@
 # imports
 from ghidra.program.model.block import BasicBlockModel
 from ghidra.util.task import ConsoleTaskMonitor
+from ghidra.app.decompiler import DecompileOptions, DecompInterface
 from ghidra.util.graph import Edge
 from ghidra.util.graph import Vertex
-from ghidra.program.model.pcode import PcodeOp, PcodeOpAST, PcodeSyntaxTree
 import networkx as nx
 
+
+######################################################################################################
+
+
+# used to dump refined Pcode (seen in the decompiler)
+def getHighFunction(func):
+    options = DecompileOptions()
+    monitor = ConsoleTaskMonitor()
+    ifc = DecompInterface()
+    ifc.setOptions(options)
+    ifc.openProgram(getCurrentProgram())
+    # Setting a simplification style will strip useful `indirect` information.
+    # Please don't use this unless you know why you're using it.
+    #ifc.setSimplificationStyle("normalize") 
+    res = ifc.decompileFunction(func, 60, monitor)
+    high = res.getHighFunction()
+    return high
+# --> high_func gets passed to xorCheck and hexCheck
+
+
+## might not needed, to be deleted
+def dump_refined_pcode(func, high_func):
+    opiter = high_func.getPcodeOps()
+    while opiter.hasNext():
+        op = opiter.next()
+        print("{}".format(op.toString()))
 
 ######################################################################################################
 # xorCheck(function)
 # Description: Checks if given function contains at any point the XOR operator
 
-def xorCheck(func):
+def xorCheck(high_func):
     # per function
-    addrSet = func.getBody()                                        # Get the address set for this namespace.  
-    #codeUnits = listing.getCodeUnits(addrSet, True)                 # get a CodeUnit iterator that will iterate over the entire address space. True means forward
-    pCodes = getPcodeOps(addrSet)
-	
-    # per codeunit    
-    #for codeUnit in codeUnits:
-        #codeUnitString = codeUnit.toString()
-        #if 'XOR' in codeUnitString:
-            #return True
-    for instr in pCodes:
-        pCodeString = instr.toString()
-	if '0x100' in pCodeString:
-		return True
-	    
-
+    opiter = high_func.getPcodeOps()
+    while opiter.hasNext():
+        op = opiter.next()
+        op_str = op.toString()
+        if 'XOR' in op_str:
+            return True
     return False
 
 ######################################################################################################
 # hexCheck(function)
 # Description: Checks if given function contains at any point the hex value 0x100
 
-def hexCheck(func):
+def hexCheck(high_func):
     # per function
-    addrSet = func.getBody()                                        # Get the address set for this namespace.  
-    codeUnits = listing.getCodeUnits(addrSet, True)                 # get a CodeUnit iterator that will iterate over the entire address space. True means forward
-
-    # per codeunit    
-    for codeUnit in codeUnits:
-        codeUnitString = codeUnit.toString()
-        if '0x100' in codeUnitString:
+    opiter = high_func.getPcodeOps()
+    while opiter.hasNext():
+        op = opiter.next()
+        op_str = op.toString()
+        if '0x100' in op_str:
             return True
-
     return False
 		
 
@@ -158,9 +172,10 @@ if __name__ == "__main__":
     pPRGA = 0	
 
     for func in funcs:
+        hf = getHighFunction(func)
         output = "  Func: {:<30}	  |      HexValue: {:^}      |        ParamCount: {:^}          |        loopCount: {:^}         |       xorCount: {:^}  |   Possible a KSA: {:>}            |             Possible a PRGA: {:>}            |"
         if possibleKSA(func):
-		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
+		print(output.format(func, hexCheck(hf), paramCounter(func), loopCounter(func), xorCheck(hf), possibleKSA(func), possiblePRGA(func)))
 		pKSA += 1
 	if possiblePRGA(func):
 		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
