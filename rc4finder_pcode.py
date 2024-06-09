@@ -82,8 +82,7 @@ def xorCheck(high_func):
 def hexCheck(high_func):
     # per function
     opiter = high_func.getPcodeOps()
-    while opiter.hasNext():             # to change if xorCheck works
-        op = opiter.next()
+    for op in opiter:
         op_str = op.toString()
         if '0x100' in op_str:
             return True
