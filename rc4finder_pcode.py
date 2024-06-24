@@ -46,6 +46,8 @@ import networkx as nx
 
 
 # used to dump refined Pcode (seen in the decompiler)
+# High Function: internal representation of a function after having applied the decompiler
+# unused, kept for reference
 def getHighFunction(func):
     options = DecompileOptions()
     monitor = ConsoleTaskMonitor()
@@ -61,33 +63,93 @@ def getHighFunction(func):
 # --> high_func gets passed to xorCheck and hexCheck
 
 
+######################################################################################################
+
+# used to dump raw Pcode (seen in the decompiler)
+# kept only for reference
+""" def dump_raw_pcode(func):
+    func_body = func.getBody()
+    listing = currentProgram.getListing()
+    opiter = listing.getInstructions(func_body, True)
+    while opiter.hasNext():
+        op = opiter.next()
+        raw_pcode = op.getPcode()
+        print("{}".format(op))
+        for entry in raw_pcode:
+            print("  {}".format(entry))
+
+func = getGlobalFunctions("main")[0]    # assumes only one function named `main`
+dump_raw_pcode(func)            	    # dump raw pcode as strings
+ """
 
 ######################################################################################################
 # xorCheck(function)
 # Description: Checks if given function contains at any point the XOR operator
+# old version with refined pcode, unused and kept for reference
 
-def xorCheck(high_func):
+"""def xorCheck(high_func):
     # per function
     opiter = high_func.getPcodeOps()
     for op in opiter:
         op_str = op.toString()
-        if 'XOR' in op_str:
+        if 'INT_XOR' in op_str:         # INT_XOR is the instr. in raw pcode
             return True
-    return False
+    return False"""
+
 
 ######################################################################################################
 # hexCheck(function)
 # Description: Checks if given function contains at any point the hex value 0x100
+# old version with refined pcode, unused and kept for reference
 
-def hexCheck(high_func):
+""" def hexCheck(high_func):
     # per function
     opiter = high_func.getPcodeOps()
     for op in opiter:
         op_str = op.toString()
         if '0x100' in op_str:
             return True
+    return False """
+
+
+######################################################################################################
+# xorCheck(function)
+# Description: Checks if given function contains at any point the XOR operator
+def xorCheck(func):
+    addrSet = func.getBody()
+    opiter = listing.getInstructions(addrSet, True)     # True means forward
+    for op in opiter:
+        raw_pcode = op.getPcode()
+        pcode_string = raw_pcode.toString()
+        if 'INT_XOR' in pcode_string:
+            return True
     return False
-		
+    
+
+
+
+
+
+
+######################################################################################################
+# hexCheck(function)
+# Description: Checks if given function contains at any point the hex value 0x100
+def hexCheck(func):
+    addrSet = func.getBody()
+    opiter = listing.getInstructions(addrSet, True)     # True means forward
+    for op in opiter:
+        raw_pcode = op.getPcode()
+        pcode_string = raw_pcode.toString()
+        if '0x100' in pcode_string:
+            return True
+    return False
+
+
+
+
+
+
+
 
 ######################################################################################################
 # paramCounter(function)
@@ -135,8 +197,8 @@ def loopCounter(function):
 # possibleKSA(function)
 # Description: Checks if all conditions are met for the function
 
-def possibleKSA(func, high_func):
-    if hexCheck(high_func) and (paramCounter(func) >= 2 and paramCounter(func) <= 5) and (loopCounter(func) >=1):
+def possibleKSA(func):
+    if hexCheck(func) and (paramCounter(func) >= 2 and paramCounter(func) <= 5) and (loopCounter(func) >=1):
         return True
     return False
 
@@ -144,8 +206,8 @@ def possibleKSA(func, high_func):
 # possiblePRGA(function)
 # Description: Checks if all conditions are met for the function
 
-def possiblePRGA(func, high_func):
-    if (paramCounter(func) >= 3 and paramCounter(func) <= 4) and (loopCounter(func) >=1) and xorCheck(high_func):
+def possiblePRGA(func):
+    if xorCheck(func) and (paramCounter(func) >= 3 and paramCounter(func) <= 4) and (loopCounter(func) >=1):
         return True
     return False
 
@@ -155,7 +217,7 @@ def possiblePRGA(func, high_func):
 if __name__ == "__main__":
 	
     blockModel = BasicBlockModel(currentProgram)
-    listing = currentProgram.getListing()		
+    listing = currentProgram.getListing() 
     
     fm = currentProgram.getFunctionManager()					# needed for managing functions of program
     funcs = fm.getFunctions(True)								# iterates over functions, true means forward
@@ -164,13 +226,13 @@ if __name__ == "__main__":
     pPRGA = 0	
 
     for func in funcs:
-        hf = getHighFunction(func)
+        #hf = getHighFunction(func)                             # unused, kept only for reference
         output = "  Func: {:<30}	  |      HexValue: {:^}      |        ParamCount: {:^}          |        loopCount: {:^}         |       xorCount: {:^}  |   Possible a KSA: {:>}            |             Possible a PRGA: {:>}            |"
-        if possibleKSA(func, hf):
-		print(output.format(func, hexCheck(hf), paramCounter(func), loopCounter(func), xorCheck(hf), possibleKSA(func, hf), possiblePRGA(func, hf)))
+        if possibleKSA(func):
+		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
 		pKSA += 1
-	if possiblePRGA(func, hf):
-		print(output.format(func, hexCheck(hf), paramCounter(func), loopCounter(func), xorCheck(hf), possibleKSA(func, hf), possiblePRGA(func, hf)))
+	if possiblePRGA(func):
+		print(output.format(func, hexCheck(func), paramCounter(func), loopCounter(func), xorCheck(func), possibleKSA(func), possiblePRGA(func)))
 		pPRGA += 1
 	funccount += 1
 
