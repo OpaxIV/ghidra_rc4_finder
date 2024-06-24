@@ -48,7 +48,7 @@ import networkx as nx
 # used to dump refined Pcode (seen in the decompiler)
 # High Function: internal representation of a function after having applied the decompiler
 # unused, kept for reference
-def getHighFunction(func):
+"""def getHighFunction(func):
     options = DecompileOptions()
     monitor = ConsoleTaskMonitor()
     ifc = DecompInterface()
@@ -59,7 +59,7 @@ def getHighFunction(func):
     #ifc.setSimplificationStyle("normalize") 
     res = ifc.decompileFunction(func, 60, monitor)
     high = res.getHighFunction()
-    return high
+    return high"""
 # --> high_func gets passed to xorCheck and hexCheck
 
 
@@ -117,11 +117,11 @@ dump_raw_pcode(func)            	    # dump raw pcode as strings
 # Description: Checks if given function contains at any point the XOR operator
 def xorCheck(func):
     addrSet = func.getBody()
-    opiter = listing.getInstructions(addrSet, True)     # True means forward
+    opiter = listing.getInstructions(addrSet, True)             # True means forward
     for op in opiter:
         raw_pcode = op.getPcode()
-        pcode_string = raw_pcode.toString()
-        if 'INT_XOR' in pcode_string:
+        raw_pcode_str = ''.join([str(p) for p in raw_pcode])    # ghidra won't output it correctly
+        if 'INT_XOR' in raw_pcode_str:
             return True
     return False
     
@@ -136,13 +136,17 @@ def xorCheck(func):
 # Description: Checks if given function contains at any point the hex value 0x100
 def hexCheck(func):
     addrSet = func.getBody()
-    opiter = listing.getInstructions(addrSet, True)     # True means forward
+    opiter = listing.getInstructions(addrSet, True)             # True means forward
     for op in opiter:
         raw_pcode = op.getPcode()
-        pcode_string = raw_pcode.toString()
-        if '0x100' in pcode_string:
-            return True
+        #raw_pcode_str = ''.join([str(p) for p in raw_pcode])    # ghidra won't output it correctly
+        for p in raw_pcode:
+            for input in p.getInputs():
+                if input.isConstant() and input.getOffset() == 0x100:
+                    print(p.getOffset())
+                return True
     return False
+
 
 
 
