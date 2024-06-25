@@ -135,6 +135,7 @@ def xorCheck(func):
 # hexCheck(function)
 # Description: Checks if given function contains at any point the hex value 0x100
 def hexCheck(func):
+    constant = 0x100
     addrSet = func.getBody()
     opiter = listing.getInstructions(addrSet, True)             # True means forward
     for op in opiter:
@@ -142,9 +143,11 @@ def hexCheck(func):
         #raw_pcode_str = ''.join([str(p) for p in raw_pcode])    # ghidra won't output it correctly
         for p in raw_pcode:
             for input in p.getInputs():
-                if input.isConstant() and input.getOffset() == 0x100:
-                    print(p.getOffset())
-                return True
+                #print("Input:", input, "Type:", type(input), "Offset:", input.getOffset())  # debugging
+                #print(input)
+                if input.isConstant():
+                    if constant in input:
+                        return True
     return False
 
 
