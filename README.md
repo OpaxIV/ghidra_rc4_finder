@@ -1,10 +1,4 @@
 # RC4 Implementation Finder
-
-### Authors: Fabio S., Jonas E.
-### Assisted by the Tutor: Tim B.
-### Hochschule Luzern
-### Date: 06.06.2024
-
 Python Script used for finding potential RC4 implementations in binaries.
 
 
