@@ -38,83 +38,13 @@ import networkx as nx
 
 
 ######################################################################################################
-
-
-# used to dump refined Pcode (seen in the decompiler)
-# High Function: internal representation of a function after having applied the decompiler
-# unused, kept for reference
-"""def getHighFunction(func):
-    options = DecompileOptions()
-    monitor = ConsoleTaskMonitor()
-    ifc = DecompInterface()
-    ifc.setOptions(options)
-    ifc.openProgram(getCurrentProgram())
-    # Setting a simplification style will strip useful `indirect` information.
-    # Please don't use this unless you know why you're using it.
-    #ifc.setSimplificationStyle("normalize") 
-    res = ifc.decompileFunction(func, 60, monitor)
-    high = res.getHighFunction()
-    return high"""
-# --> high_func gets passed to xorCheck and hexCheck
-
-
-######################################################################################################
-
-# used to dump raw Pcode (seen in the decompiler)
-# kept only for reference
-""" def dump_raw_pcode(func):
-    func_body = func.getBody()
-    listing = currentProgram.getListing()
-    opiter = listing.getInstructions(func_body, True)
-    while opiter.hasNext():
-        op = opiter.next()
-        raw_pcode = op.getPcode()
-        print("{}".format(op))
-        for entry in raw_pcode:
-            print("  {}".format(entry))
-
-func = getGlobalFunctions("main")[0]    # assumes only one function named `main`
-dump_raw_pcode(func)            	    # dump raw pcode as strings
- """
-
-######################################################################################################
-# xorCheck(function)
-# Description: Checks if given function contains at any point the XOR operator
-# old version with refined pcode, unused and kept for reference
-
-"""def xorCheck(high_func):
-    # per function
-    opiter = high_func.getPcodeOps()
-    for op in opiter:
-        op_str = op.toString()
-        if 'INT_XOR' in op_str:         # INT_XOR is the instr. in raw pcode
-            return True
-    return False"""
-
-
-######################################################################################################
-# hexCheck(function)
-# Description: Checks if given function contains at any point the hex value 0x100
-# old version with refined pcode, unused and kept for reference
-
-""" def hexCheck(high_func):
-    # per function
-    opiter = high_func.getPcodeOps()
-    for op in opiter:
-        op_str = op.toString()
-        if '0x100' in op_str:
-            return True
-    return False """
-
-
-######################################################################################################
 # xorCheck(function)
 # Description: Checks if given function contains at any point the XOR operator
 def xorCheck(func):
     addrSet = func.getBody()
-    opiter = listing.getInstructions(addrSet, True)             # True means forward
-    for op in opiter:
-        raw_pcode = op.getPcode()
+    instr_list = listing.getInstructions(addrSet, True)             # True means forward
+    for instr in instr_list:
+        raw_pcode = instr.getPcode()
         raw_pcode_str = ''.join([str(p) for p in raw_pcode])    # ghidra won't output it correctly
         if 'INT_XOR' in raw_pcode_str:
             return True
@@ -126,9 +56,9 @@ def xorCheck(func):
 # Description: Checks if given function contains at any point the hex value 0x100
 def hexCheck(func):
     addrSet = func.getBody()
-    opiter = listing.getInstructions(addrSet, True)             # True means forward
-    for op in opiter:
-        raw_pcode = op.getPcode()
+    intr_list = listing.getInstructions(addrSet, True)             # True means forward
+    for instr in intr_list:
+        raw_pcode = instr.getPcode()
         raw_pcode_str = ''.join([str(p) for p in raw_pcode])       # ghidra won't output it correctly
         print(raw_pcode_str)
         if '0x100' in raw_pcode_str:
