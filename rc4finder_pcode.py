@@ -60,7 +60,6 @@ def hexCheck(func):
     for instr in intr_list:
         raw_pcode = instr.getPcode()
         raw_pcode_str = ''.join([str(p) for p in raw_pcode])       # ghidra won't output it correctly
-        print(raw_pcode_str)
         if '0x100' in raw_pcode_str:
             return True
     return False
